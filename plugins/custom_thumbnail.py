@@ -1,29 +1,16 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# (c) Shrimadhav U K | Modifieded By : @DC4_WARRIOR
-
-# the logging things
-import logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-
-import random
-import numpy
 import os
-from PIL import Image
 import time
-
+import numpy
+import random
+from PIL import Image
 from config import Config
-# the Strings used for this "thing"
-from translation import Translation
-from pyrogram import Client as Clinton
-from database.access import clinton
-from hachoir.metadata import extractMetadata
-from hachoir.parser import createParser
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
 from pyrogram import filters
+from translation import Translation
+from database.access import clinton
 from database.adduser import AddUser
+from pyrogram import Client as Clinton
+from hachoir.parser import createParser
+from hachoir.metadata import extractMetadata
 from helper_funcs.help_Nekmo_ffmpeg import take_screen_shot
 
 @Clinton.on_message(filters.private & filters.photo)
@@ -76,40 +63,68 @@ async def Gthumb02(bot, update, duration, download_directory):
     return thumbnail
 
 async def Mdata01(download_directory):
+    width = 0
+    height = 0
+    duration = 0
+    metadata = extractMetadata(createParser(download_directory))
+    if metadata is not None:
+        if metadata.has("duration"):
+            duration = metadata.get('duration').seconds
+        if metadata.has("width"):
+            width = metadata.get("width")
+        if metadata.has("height"):
+            height = metadata.get("height")
 
-          width = 0
-          height = 0
-          duration = 0
-          metadata = extractMetadata(createParser(download_directory))
-          if metadata is not None:
-              if metadata.has("duration"):
-                  duration = metadata.get('duration').seconds
-              if metadata.has("width"):
-                  width = metadata.get("width")
-              if metadata.has("height"):
-                  height = metadata.get("height")
-
-          return width, height, duration
+    return width, height, duration
 
 async def Mdata02(download_directory):
+    width = 0
+    duration = 0
+    metadata = extractMetadata(createParser(download_directory))
+    if metadata is not None:
+        if metadata.has("duration"):
+            duration = metadata.get('duration').seconds
+        if metadata.has("width"):
+            width = metadata.get("width")
 
-          width = 0
-          duration = 0
-          metadata = extractMetadata(createParser(download_directory))
-          if metadata is not None:
-              if metadata.has("duration"):
-                  duration = metadata.get('duration').seconds
-              if metadata.has("width"):
-                  width = metadata.get("width")
-
-          return width, duration
+    return width, duration
 
 async def Mdata03(download_directory):
+    duration = 0
+    metadata = extractMetadata(createParser(download_directory))
+    if metadata is not None:
+        if metadata.has("duration"):
+            duration = metadata.get('duration').seconds
 
-          duration = 0
-          metadata = extractMetadata(createParser(download_directory))
-          if metadata is not None:
-              if metadata.has("duration"):
-                  duration = metadata.get('duration').seconds
+    return duration
 
-          return duration
+async def get_flocation(download_directory, extension):
+    try:
+        file_size = os.stat(download_directory).st_size
+        return file_size, download_directory
+    except Exception:
+        pass
+    try:
+        file_directory = download_directory + ".mkv"
+        file_size = os.stat(file_directory).st_size
+        return file_size, file_directory
+    except Exception:
+        pass
+    try:
+        file_directory = download_directory + "." + extension
+        file_size = os.stat(file_directory).st_size
+        return file_size, file_directory
+    except Exception:
+        pass
+    try:
+        file_directory = os.path.splitext(download_directory)[0] + ".mkv"
+        file_size = os.stat(file_directory).st_size
+        return file_size, file_directory
+    except Exception:
+        pass
+    try:
+        file_directory = os.path.splitext(download_directory)[0] + "." + extension
+        file_size = os.stat(file_directory).st_size
+        return file_size, download_directory
+    except Exception:
+        return 0, file_directory

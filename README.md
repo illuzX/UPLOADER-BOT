@@ -1,7 +1,3 @@
-# SOURCE CODE EXPIRED [ 🗑️ ] 🤧
-
-
-
 #### [UPLOADER-BOT](https://t.me/uploader_x_bot)
 
 [![Size](https://img.shields.io/github/repo-size/Clinton-Abraham/UPLOADER-BOT?style=flat-square&color=green)](https://github.com/Clinton-Abraham/UPLOADER-BOT)
@@ -34,21 +30,6 @@ heroku/python
 
 
 ## 🍃 How To Get Mongodb URI - [ Watch Video ](https://youtu.be/YIYSby2PcfU)
-
-
-## 🚸 HEROKU CLI COMMANDS
-
-`* git clone https://github.com/Clinton-Abraham/UPLOADER-BOT.git`
-
-`* heroku login`
-
-`* cd UPLOADER-BOT`
-
-`* heroku git:remote -a app-name`
-
-`* git pull origin V2.0`
-
-`* git push heroku V2.0:master`
 
 
 ## BOT COMMANDS
